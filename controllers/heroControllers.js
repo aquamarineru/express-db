@@ -2,9 +2,9 @@ import pool from '../db/sqlConnection.js'
 const getAllHeroes = async (req, res) => {
     try{
 //store awaiting value                    the first argument is a string '' which is a sql statement
-        const allHeroes = await pool.query('SELECT * FROM heroes', )
+        const {rows} = await pool.query('SELECT * FROM heroes' )
 // When asynchrones function is finished return us a value it'll be stored in var allHeroes and we can send in response
-        return res.json(allHeroes)
+        return res.json(rows) // get ONLY content of the rows
     } catch(error) {
         return res.status(500).json({error: error.message})
     }
@@ -12,7 +12,12 @@ const getAllHeroes = async (req, res) => {
 
 const createHero = async (req, res) => {
     try{
-
+        const {id} = req.params
+        const {rows} = await pool.query('SELECT * FROM heroes WHERE id=$1', [id])
+        if(!rows.length){
+            return res.status(404).json({error: `Hero not found!`})
+        }
+        return res.json(rows)
     } catch(error) {
         return res.status(500).json({error: error.message})
     }

@@ -2,4 +2,8 @@ GET http://localhost:8080/
 
 ###
 
-GET http://localhost:8080/sql
+GET http://localhost:8080/sql/
+
+### 
+
+GET http://localhost:8080/sql/5
